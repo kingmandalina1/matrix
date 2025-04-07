@@ -7,59 +7,82 @@
 #define SATIR_B 3
 #define SUTUN_B 2
 
-void matrisDoldur(int* matris, int satir, int sutun) {
-	int i,j;
-    for ( i = 0; i < satir; i++) {
-        for (j = 0; j < sutun; j++) {
-            *(matris + i * sutun + j) = rand() % 100 + 1;
+void matrisADoldur(int matris[][SUTUN_A], int satirSayisi) {
+    int i, j;
+    for (i = 0; i < satirSayisi; i++) {
+        for (j = 0; j < SUTUN_A; j++) {
+            matris[i][j] = (rand() % 100) + 1;
         }
     }
 }
-
-void matrisYazdir(int* matris, int satir, int sutun) {
-	int i,j;
-    for (i = 0; i < satir; i++) {
-        for (j = 0; j < sutun; j++) {
-            printf("%5d ", *(matris + i * sutun + j));
+void matrisBDoldur(int matris[][SUTUN_B], int satirSayisi) {
+    int i, j;
+    for (i = 0; i < satirSayisi; i++) {
+        for (j = 0; j < SUTUN_B; j++) {
+            matris[i][j] = (rand() % 100) + 1;
+        }
+    }
+}
+void matrisAYazdir(int matris[][SUTUN_A], int satirSayisi) {
+    int i, j;
+    for (i = 0; i < satirSayisi; i++) {
+        for (j = 0; j < SUTUN_A; j++) {
+            printf("%5d ", matris[i][j]);
         }
         printf("\n");
     }
 }
-
-void matrisCarp(int A[][SUTUN_A], int B[][SUTUN_B], int C[][SUTUN_B]) {
-	int i,j,k;
-    for ( i = 0; i < SATIR_A; i++) {
+void matrisBYazdir(int matris[][SUTUN_B], int satirSayisi) {
+    int i, j;
+    for (i = 0; i < satirSayisi; i++) {
         for (j = 0; j < SUTUN_B; j++) {
-            C[i][j] = 0;
+            printf("%5d ", matris[i][j]);
+        }
+        printf("\n");
+    }
+}
+void matrisCYazdir(int matris[][SUTUN_B], int satirSayisi) {
+    int i, j;
+    for (i = 0; i < satirSayisi; i++) {
+        for (j = 0; j < SUTUN_B; j++) {
+            printf("%5d ", matris[i][j]);
+        }
+        printf("\n");
+    }
+}
+void carpMatris(int A[][SUTUN_A], int B[][SUTUN_B], int sonuc[][SUTUN_B]) {
+    int i, j, k;
+    for (i = 0; i < SATIR_A; i++) {
+        for (j = 0; j < SUTUN_B; j++) {
+            sonuc[i][j] = 0;
             for (k = 0; k < SUTUN_A; k++) {
-                C[i][j] += A[i][k] * B[k][j];
+                sonuc[i][j] += A[i][k] * B[k][j];
             }
         }
     }
 }
-
 int main() {
     srand(time(NULL));
 
     int A[SATIR_A][SUTUN_A];
     int B[SATIR_B][SUTUN_B];
     int C[SATIR_A][SUTUN_B];
+    int i, j;
 
-    matrisDoldur((int*)A, SATIR_A, SUTUN_A);
-    matrisDoldur((int*)B, SATIR_B, SUTUN_B);
+    matrisADoldur(A, SATIR_A);
+    matrisBDoldur(B, SATIR_B);
 
     printf("Matris A:\n");
-    matrisYazdir((int*)A, SATIR_A, SUTUN_A);
+    matrisAYazdir(A, SATIR_A);
 
     printf("\nMatris B:\n");
-    matrisYazdir((int*)B, SATIR_B, SUTUN_B);
+    matrisBYazdir(B, SATIR_B);
 
     printf("\nToplama islemi yapilamaz\n");
 
-    matrisCarp(A, B, C);
+    carpMatris(A, B, C);
     printf("\nA * B Sonucu:\n");
-    matrisYazdir((int*)C, SATIR_A, SUTUN_B);
+    matrisCYazdir(C, SATIR_A);
 
     return 0;
 }
-
